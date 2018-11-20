@@ -5,7 +5,7 @@ ARG KUBE_VERSION="v1.11.3"
 
 RUN apk --no-cache update \
   && rm -rf /var/cache/apk/* \
-  && apk add --update -t deps curl tar gzip make bash python which nodejs-current yarn \
+  && apk add --update -t deps curl tar gzip make bash python which nodejs-current yarn ca-certificates git openssh \
   && apk add mongodb-tools --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
   && curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl \
   && chmod +x /usr/local/bin/kubectl \
