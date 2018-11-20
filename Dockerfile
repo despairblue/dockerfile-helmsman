@@ -1,8 +1,18 @@
-FROM praqma/helmsman:v1.6.2
+FROM alpine:3.8
 
-RUN apk add --update python curl which bash openssl nodejs-current yarn
-RUN curl -sSL https://sdk.cloud.google.com > /tmp/gcl && bash /tmp/gcl --install-dir=~/gcloud --disable-prompts
-RUN curl https://raw.githubusercontent.com/helm/helm/master/scripts/get > get_helm.sh
-RUN chmod 700 get_helm.sh
-RUN ./get_helm.sh
-RUN helm init --client-only
+ARG HELM_VERSION=v2.11.0
+ARG KUBE_VERSION="v1.11.3"
+
+RUN apk --no-cache update \
+  && rm -rf /var/cache/apk/* \
+  && apk add --update -t deps curl tar gzip make bash python which nodejs-current yarn \
+  && apk add mongodb-tools --update-cache --repository http://dl-3.alpinelinux.org/alpine/edge/community/ --repository http://dl-3.alpinelinux.org/alpine/edge/main/ \
+  && curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl \
+  && chmod +x /usr/local/bin/kubectl \
+  && curl -L http://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar zxv -C /tmp \
+  && mv /tmp/linux-amd64/helm /usr/local/bin/helm \
+  && chmod +x /usr/local/bin/helm \
+  && helm init --client-only \
+  && curl -sSL https://sdk.cloud.google.com > /tmp/gcl && bash /tmp/gcl --install-dir=~/gcloud --disable-prompts \
+  && rm -rf /tmp/linux-amd64
+
