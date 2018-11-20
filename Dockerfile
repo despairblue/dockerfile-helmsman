@@ -16,3 +16,11 @@ RUN apk --no-cache update \
   && curl -sSL https://sdk.cloud.google.com > /tmp/gcl && bash /tmp/gcl --install-dir=~/gcloud --disable-prompts \
   && rm -rf /tmp/linux-amd64
 
+RUN mkdir -p ~/.helm/plugins \
+  && helm plugin install https://github.com/hypnoglow/helm-s3.git \
+  && helm plugin install https://github.com/nouney/helm-gcs \
+  && helm plugin install https://github.com/databus23/helm-diff \
+  && helm plugin install https://github.com/futuresimple/helm-secrets \
+  && rm -r /tmp/helm-diff /tmp/helm-diff.tgz
+
+WORKDIR /tmp
