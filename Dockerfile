@@ -1,7 +1,7 @@
 FROM alpine:3.8
 
 ARG HELM_VERSION=v2.11.0
-ARG KUBE_VERSION="v1.11.3"
+ARG KUBE_VERSION="v1.14.8"
 
 RUN apk --no-cache update \
   && rm -rf /var/cache/apk/* \
