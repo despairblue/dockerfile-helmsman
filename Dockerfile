@@ -6,7 +6,7 @@ ARG KUBE_VERSION="v1.14.8"
 RUN apk --no-cache update \
   && rm -rf /var/cache/apk/* \
   && apk add --update -t deps curl tar gzip make bash python which nodejs-current yarn npm ca-certificates git openssh \
-  && apk add mongodb-tools --update-cache --repository http://dl-3.alpinelinux.org/alpine/3.9/community/ --repository http://dl-3.alpinelinux.org/alpine/3.9/main/ \
+  && apk add mongodb-tools --update-cache --repository http://dl-3.alpinelinux.org/alpine/v3.9/community/ --repository http://dl-3.alpinelinux.org/alpine/v3.9/main/ \
   && curl -L https://storage.googleapis.com/kubernetes-release/release/${KUBE_VERSION}/bin/linux/amd64/kubectl -o /usr/local/bin/kubectl \
   && chmod +x /usr/local/bin/kubectl \
   && curl -L http://storage.googleapis.com/kubernetes-helm/helm-${HELM_VERSION}-linux-amd64.tar.gz | tar zxv -C /tmp \
